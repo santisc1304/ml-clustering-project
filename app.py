@@ -250,6 +250,44 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
+# EXPLICACIÓN SENCILLA Y DIDÁCTICA: ¿QUÉ HICIMOS Y CÓMO FUNCIONA?
+# ------------------------------------------------------------------------------
+with st.expander("📖 ¿Cómo funciona esta aplicación? Explicación sencilla paso a paso (Haz clic para ver)", expanded=True):
+    col_exp1, col_exp2 = st.columns(2)
+    with col_exp1:
+        st.markdown("""
+        #### 🎯 1. ¿Qué problema resuelve este sistema?
+        En las empresas de telefonía y servicios digitales hay miles de clientes con hábitos completamente distintos:
+        * Unos casi no llaman pero envían cientos de mensajes y consumen servicios de alto valor.
+        * Otros usan el teléfono como herramienta de trabajo intensiva (más de 3 horas de llamadas).
+        * Y una gran mayoría tiene un consumo básico y esporádico.
+        
+        **Si a todos les ofrecemos la misma tarifa, perdemos dinero o los clientes se van.** Este sistema agrupa a los clientes automáticamente para que el equipo comercial sepa exactamente **qué plan o beneficio ofrecer a cada persona**.
+        """)
+        
+        st.markdown("""
+        #### 🧠 2. ¿Qué modelo usamos y por qué?
+        Seguimos la **Ruta B (Aprendizaje No Supervisado)** con el algoritmo **K-Means**:
+        * **Sin respuestas previas:** No le dijimos al modelo quién era quién; el algoritmo analizó a 3,150 clientes y descubrió de forma natural que existen **3 tribus o perfiles** bien diferenciados.
+        * **Fórmula de distancia:** Cuando ingresas un cliente, el modelo mide la "distancia matemática" de sus hábitos contra cada tribu y lo asigna a la más cercana en milisegundos.
+        """)
+
+    with col_exp2:
+        st.markdown("""
+        #### ⚖️ 3. El Secreto del Preprocesamiento (Por qué no falla)
+        Si comparamos directamente **Segundos de Uso** (que son miles, ej: 11,000 s) con la **Edad** (decenas, ej: 30 años), la matemática se confundiría y creería que los segundos son 400 veces más importantes solo por ser números más grandes.
+        * Por eso construimos un **Pipeline de Scikit-Learn** con `StandardScaler`, que normaliza todas las variables a una misma escala justa.
+        * Además, incluimos `SimpleImputer` para que si en el futuro falta un dato, la aplicación no se caiga y use un valor de respaldo inteligente.
+        """)
+
+        st.markdown("""
+        #### 🚀 4. ¿Cómo usar esta pantalla?
+        1. **Elige un ejemplo rápido** en el menú de la izquierda (como *SMS Champion* o *Heavy Caller*) o mueve los controles a tu gusto.
+        2. Presiona el botón grande **Ejecutar Algoritmo de Segmentación**.
+        3. El sistema te mostrará a qué grupo pertenece, qué acción comercial tomar y 4 gráficos interactivos para auditar el resultado visualmente.
+        """)
+
+# ------------------------------------------------------------------------------
 # 4. PIPELINE DAG INTERACTIVO (VISUALIZACIÓN DEL PROCESO EN TIEMPO REAL)
 # ------------------------------------------------------------------------------
 st.markdown("""
@@ -491,6 +529,7 @@ if execute_btn or preset != "Personalizado (Ajuste Manual)":
 
     with tab_radar:
         st.markdown("#### 📡 Comparativa Multidimensional: Caso Actual vs. Centroides")
+        st.info("💡 **¿Cómo interpretar este gráfico de telaraña?** Cada vértice es una variable. La silueta dorada con relleno representa al cliente que acabas de ingresar. Las líneas punteadas de colores muestran el 'cliente promedio' de cada una de las 3 tribus. Si la figura dorada se estira hacia 'Customer Value' o 'Frequency of SMS', verás de un solo vistazo qué rasgo lo hace único.")
 
         radar_features = [
             "Seconds of Use",
@@ -561,7 +600,7 @@ if execute_btn or preset != "Personalizado (Ajuste Manual)":
 
     with tab_pca:
         st.markdown("#### 🌌 Mapa de Densidad y Ubicación del Cliente en el Espacio PCA")
-        st.caption("Visualiza cómo se posiciona este cliente específico respecto a la nube de 3,150 clientes.")
+        st.info("💡 **¿Cómo entender este mapa de galaxias?** Como los humanos no podemos ver 8 dimensiones al tiempo, usamos **PCA** para comprimir las 8 variables en un plano 2D sin perder su estructura esencial. Cada puntito es uno de los 3,150 clientes reales. La **estrella dorada grande (⭐)** es el cliente que estás evaluando en este instante: fíjate visualmente junto a qué nube de clientes cayó.")
 
         # Cargar datos para el fondo PCA de manera robusta
         dataset_path = CURRENT_DIR / "datasets" / "datos.csv"
@@ -625,6 +664,7 @@ if execute_btn or preset != "Personalizado (Ajuste Manual)":
 
     with tab_gauge:
         st.markdown("#### ⏱️ Tacómetro de Afinidad y Distancia al Centroide")
+        st.info("💡 **¿Qué nos indica la aguja?** Mide qué tan 'puro' o prototípico es el cliente dentro de su grupo. Un valor mayor al 80% indica que está muy cerca del centro de gravedad de su tribu (un cliente arquetípico). Un valor menor al 60% indica que está en una frontera o zona de transición entre dos grupos.")
 
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number+delta",
@@ -661,6 +701,7 @@ if execute_btn or preset != "Personalizado (Ajuste Manual)":
 
     with tab_table:
         st.markdown("#### 📋 Matriz de Perfiles Medios de la Población")
+        st.info("💡 **Foto panorámica de la empresa:** Esta tabla contiene los valores promedio reales calculados sobre los 3,150 clientes. Puedes ver el tamaño de cada grupo (`percentage`) y cómo difieren drásticamente en volumen de minutos, SMS y valor comercial (`Customer Value`).")
         st.dataframe(
             profiles_df.style.format("{:.2f}").background_gradient(cmap="Purples"),
             use_container_width=True
