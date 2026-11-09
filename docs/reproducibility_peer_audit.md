@@ -5,8 +5,9 @@
 
 ### 1. Datos de la Auditoría Cruzada
 - **Proyecto Evaluado:** Segmentación No Supervisada MLOps (Ruta B - K-Means Customer Profiler)
+- **Autor del Proyecto:** Santiago Sandoval Cortés
 - **Modalidad:** Auditoría Ciega (*Blind Peer Review* sin intervención verbal)
-- **Repositorio Auditado:** `https://github.com/usuario/ml-clustering-project`
+- **Repositorio Auditado:** `https://github.com/santisc1304/ml-clustering-project`
 - **Ambiente de Auditoría:** Contenedor Docker en Linux Ubuntu 24.04 LTS / Google Cloud Compute Engine
 - **Fecha de Verificación:** Ciclo Académico 2026-2
 

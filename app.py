@@ -602,12 +602,10 @@ if execute_btn or preset != "Personalizado (Ajuste Manual)":
         st.markdown("#### 🌌 Mapa de Densidad y Ubicación del Cliente en el Espacio PCA")
         st.info("💡 **¿Cómo entender este mapa de galaxias?** Como los humanos no podemos ver 8 dimensiones al tiempo, usamos **PCA** para comprimir las 8 variables en un plano 2D sin perder su estructura esencial. Cada puntito es uno de los 3,150 clientes reales. La **estrella dorada grande (⭐)** es el cliente que estás evaluando en este instante: fíjate visualmente junto a qué nube de clientes cayó.")
 
-        # Cargar datos para el fondo PCA de manera robusta
+        # Cargar datos para el fondo PCA desde datasets/datos.csv
         dataset_path = CURRENT_DIR / "datasets" / "datos.csv"
         if not dataset_path.exists():
             dataset_path = Path("datasets/datos.csv")
-            if not dataset_path.exists():
-                dataset_path = Path("data/datos.csv")
         df_background = pd.read_csv(dataset_path)
         X_bg = df_background[features]
         X_bg_scaled = pipeline[:-1].transform(X_bg)

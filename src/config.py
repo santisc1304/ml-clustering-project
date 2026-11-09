@@ -14,7 +14,6 @@ MAX_ITER: int = 300
 
 # Rutas de datos y artefactos
 DATA_PATH_PRIMARY: Path = Path("datasets/datos.csv")
-DATA_PATH_FALLBACK: Path = Path("data/datos.csv")
 MODEL_PATH_DEFAULT: Path = Path("model.joblib")
 GRAPHS_DIR: Path = Path("graphs")
 DOCS_DIR: Path = Path("docs")

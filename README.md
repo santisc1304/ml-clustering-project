@@ -9,6 +9,28 @@
 
 ---
 
+## 📌 Mapa de Entregables del Proyecto
+
+Para facilitar la revisión por parte del docente y la realización de la **Prueba Cruzada** con otra pareja/evaluador, a continuación se detalla la ubicación exacta de cada entregable exigido en la guía oficial:
+
+| Entregable Oficial | Ubicación en el Repositorio | Descripción / Estado |
+|---|---|---|
+| **Dataset Oficial** | [`datasets/datos.csv`](datasets/datos.csv) | 3,150 registros x 8 variables de uso y valor. Única fuente de datos del proyecto. |
+| **Pipeline & Entrenamiento CLI** | [`train.py`](train.py) | Script autónomo y determinista (semilla 42, k=3, métricas Silhouette/Inercia). |
+| **Artefacto Serializado** | [`model.joblib`](model.joblib) | Objeto binario inmutable: Pipeline hermético + PCA + Perfiles + Metadatos. |
+| **Aplicación Web Interactiva** | [`app.py`](app.py) | Streamlit Hyper-Visual con HTML5/CSS (Violeta/Rojo Oscuro) y gráficos Plotly. |
+| **Dependencias Pinned** | [`requirements.txt`](requirements.txt) | Librerías con versiones compatibles y verificadas. |
+| **Empaquetado Docker** | [`Dockerfile`](Dockerfile) y [`.dockerignore`](.dockerignore) | Imagen de producción segura (usuario no-root `appuser` y healthcheck). |
+| **Documentación Oficial** | [`README.md`](README.md) | Guía técnica completa con instrucciones de ejecución y reproducción. |
+| **Notebook para Google Colab** | [`notebook_colab_reto_ml.ipynb`](notebook_colab_reto_ml.ipynb) | Flujo paso a paso ejecutable en Google Colab con un solo clic. |
+| **Gráficos Diagnósticos** | [`graphs/`](graphs/) | Figuras en alta resolución: Método del Codo, Silhouette y Proyección PCA 2D. |
+| **Interpretación de Negocio** | [`docs/cluster_business_interpretation.md`](docs/cluster_business_interpretation.md) | Análisis detallado de los 3 segmentos descubiertos y acciones tácticas. |
+| **Protocolo de Auditoría Ciega** | [`docs/reproducibility_peer_audit.md`](docs/reproducibility_peer_audit.md) | Matriz de verificación y registro para la prueba cruzada. |
+| **Preguntas de Sustentación** | [`docs/preguntas_discusion_final.md`](docs/preguntas_discusion_final.md) | Respuestas técnicas y conceptuales a las 12 preguntas de la Sección 35. |
+| **Suite de Pruebas Unitarias** | [`tests/test_pipeline_and_inference.py`](tests/test_pipeline_and_inference.py) | 5 pruebas automatizadas con `pytest` (**5/5 pasadas en verde**). |
+
+---
+
 ## 1. Título y Objetivo del Proyecto
 **Plataforma Integral de Segmentación No Supervisada y Despliegue MLOps**.
 El objetivo de este proyecto es construir, validar, empaquetar y desplegar una solución completa de Machine Learning para segmentar automáticamente clientes de telecomunicaciones según sus patrones de uso y valor comercial. La solución permite al equipo comercial y de marketing clasificar en tiempo real a nuevos usuarios mediante una interfaz analítica de vanguardia, facilitando la toma de decisiones basada en datos.
@@ -16,10 +38,10 @@ El objetivo de este proyecto es construir, validar, empaquetar y desplegar una s
 ---
 
 ## 2. Descripción del Dataset y Unidad de Observación
-- **Dataset:** Registro de Comportamiento y Tráfico de Clientes Móviles (`datasets/datos.csv`).
+- **Dataset:** Registro de Comportamiento y Tráfico de Clientes Móviles ([`datasets/datos.csv`](datasets/datos.csv)).
 - **Población:** 3,150 clientes individuales observados durante un período de facturación completo.
 - **Unidad de Observación:** Un cliente individual o línea telefónica activa.
-- **Procedencia:** Repositorio público de comportamiento de clientes de telecomunicaciones.
+- **Procedencia:** Repositorio público de comportamiento y consumo de clientes de telecomunicaciones.
 
 ---
 
@@ -108,7 +130,7 @@ cluster   n_samples  % Base   Seconds of Use  Freq Use  Freq SMS  Distinct Numbe
 El script es 100% reproducible y autónomo desde la línea de comandos:
 
 ```bash
-# Ejecución estándar con rutas por defecto
+# Ejecución estándar leyendo directamente de datasets/datos.csv
 python train.py
 
 # O con parámetros personalizados
@@ -163,7 +185,32 @@ docker logs -f ml-clustering
 
 ---
 
-## 13. Casos de Prueba Auditables (Entrada vs. Salida Esperada)
+## 13. Guía Paso a Paso para la Prueba Cruzada (Auditoría Ciega)
+
+Para cumplir con la **Sección 31 de la Guía Oficial**, cualquier compañero o evaluador externo puede reproducir el proyecto en menos de 3 minutos siguiendo estos pasos exactos:
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/santisc1304/ml-clustering-project.git
+cd ml-clustering-project
+
+# 2. Ejecutar la suite de pruebas automáticas (debe dar 5/5 PASSED)
+python -m pytest tests/ -v
+
+# 3. Reentrenar el modelo desde cero para comprobar reproducibilidad
+python train.py
+
+# 4. Levantar la aplicación con Docker
+docker build -t ml-clustering-app .
+docker run -d --name ml-clustering -p 8501:8501 ml-clustering-app
+
+# 5. Abrir en el navegador
+# http://localhost:8501 (o la IP pública si es en la nube)
+```
+
+### Casos de Prueba para la Auditoría Ciega:
+
+Ingrese los siguientes valores en los controles de la aplicación (o use los botones de *Presets* de la barra lateral izquierda) y verifique que la salida sea idéntica:
 
 | Parámetro | Caso 1 (SMS Champion) | Caso 2 (Heavy Caller) | Caso 3 (Base Estándar) |
 |---|:---:|:---:|:---:|
@@ -175,8 +222,11 @@ docker logs -f ml-clustering
 | `Distinct Called Numbers` | 23.0 | 45.0 | 16.0 |
 | `Age` | 28.0 | 35.0 | 30.0 |
 | `Customer Value` | **1350.0** | 680.0 | 150.0 |
-| **Cluster Predicho** | **Cluster 1** | **Cluster 2** | **Cluster 0** |
+| **Cluster Predicho Esperado** | **Cluster 1** | **Cluster 2** | **Cluster 0** |
 | **Afinidad Esperada** | **> 85%** | **> 90%** | **> 80%** |
+| **Verificación** | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% |
+
+Registre el resultado de la auditoría en el formato [`docs/reproducibility_peer_audit.md`](docs/reproducibility_peer_audit.md).
 
 ---
 
@@ -207,8 +257,8 @@ docker logs -f ml-clustering
    sudo usermod -aG docker $USER
    
    # Clonar el proyecto
-   git clone <URL_REPOSITORIO>
-   cd ml_clustering_project
+   git clone https://github.com/santisc1304/ml-clustering-project.git
+   cd ml-clustering-project
    
    # Construir y lanzar contenedor
    docker build -t ml-clustering-app .
@@ -219,8 +269,7 @@ docker logs -f ml-clustering
 
 ---
 
-## 15. Autores y Créditos
-- **Autores:** Equipo de Ciencia de Datos & Machine Learning Industrial
+## 15. Autor y Créditos
+- **Autor:** Santiago Sandoval Cortés
 - **Curso:** Machine Learning II (2026-2)
 - **Licencia:** MIT License
-

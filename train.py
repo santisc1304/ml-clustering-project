@@ -19,7 +19,6 @@ from src.config import (
     RANDOM_SEED,
     N_CLUSTERS,
     DATA_PATH_PRIMARY,
-    DATA_PATH_FALLBACK,
     MODEL_PATH_DEFAULT,
     FEATURES,
     FEATURE_DESCRIPTIONS,
@@ -37,16 +36,14 @@ from src.evaluate_and_plot import generate_evaluation_plots
 
 def load_data(data_path: Path) -> pd.DataFrame:
     """
-    Carga el dataset verificando rutas primarias y de respaldo.
+    Carga el dataset desde la carpeta datasets/.
     """
     target_path = data_path
     if not target_path.exists():
         if DATA_PATH_PRIMARY.exists():
             target_path = DATA_PATH_PRIMARY
-        elif DATA_PATH_FALLBACK.exists():
-            target_path = DATA_PATH_FALLBACK
         else:
-            raise FileNotFoundError(f"No se encontró el dataset en {data_path}, {DATA_PATH_PRIMARY} ni {DATA_PATH_FALLBACK}")
+            raise FileNotFoundError(f"No se encontró el dataset en {data_path} ni en {DATA_PATH_PRIMARY}")
 
     print(f"[1/5] Cargando dataset desde: {target_path}")
     df = pd.read_csv(target_path)

@@ -88,3 +88,4 @@ Lo único que cambiaría sería la librería de cálculo en `requirements.txt` (
 3. **Serverless Hosting:** Migrar de una VM persistente a **Google Cloud Run**, permitiendo autoescalado a cero instancias para reducir costos cuando no haya tráfico.
 4. **CI/CD Automatizado:** Construir pipelines con **GitHub Actions** para ejecutar pruebas automáticas con `pytest`, construir la imagen y desplegarla en GCP automáticamente ante cada `git push`.
 5. **Monitoreo de Data Drift:** Implementar herramientas como Evidently AI o Prometheus/Grafana para detectar si la distribución de los clientes cambia en el tiempo (*Covariate Shift*).
+
