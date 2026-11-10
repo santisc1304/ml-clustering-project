@@ -185,34 +185,55 @@ docker logs -f ml-clustering
 
 ---
 
-## 13. Guía Paso a Paso para la Prueba Cruzada (Auditoría Ciega)
+## 13. Protocolo de Validación Cruzada entre Parejas (Sección 31 de la Guía)
 
-Para cumplir con la **Sección 31 de la Guía Oficial**, cualquier compañero o evaluador externo puede reproducir el proyecto en menos de 3 minutos siguiendo estos pasos exactos:
+Para cumplir de forma literal con la **Sección 31 de la Guía Oficial**, cualquier compañero, pareja evaluadora o auditor externo debe reproducir este proyecto siguiendo **estrictamente este flujo de 7 pasos**, sin instrucciones verbales adicionales:
 
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/santisc1304/ml-clustering-project.git
-cd ml-clustering-project
-
-# 2. Ejecutar la suite de pruebas automáticas (debe dar 5/5 PASSED)
-python -m pytest tests/ -v
-
-# 3. Reentrenar el modelo desde cero para comprobar reproducibilidad
-python train.py
-
-# 4. Levantar la aplicación con Docker
-docker build -t ml-clustering-app .
-docker run -d --name ml-clustering -p 8501:8501 ml-clustering-app
-
-# 5. Abrir en el navegador
-# http://localhost:8501 (o la IP pública si es en la nube)
+```mermaid
+flowchart TD
+    A["1. Recibir únicamente la URL del repositorio"] --> B["2. Clonar el repositorio"]
+    B --> C["3. Leer README sin instrucciones verbales"]
+    C --> D["4. Construir la imagen Docker"]
+    D --> E["5. Ejecutar el contenedor"]
+    E --> F["6. Probar al menos un caso de prueba"]
+    F --> G["7. Registrar resultado y observaciones en el formato"]
 ```
 
-### Casos de Prueba para la Auditoría Ciega:
+### Guía de Ejecución de los 7 Pasos del Protocolo:
 
-Ingrese los siguientes valores en los controles de la aplicación (o use los botones de *Presets* de la barra lateral izquierda) y verifique que la salida sea idéntica:
+#### Paso 1: Recibir únicamente la URL del repositorio
+* URL oficial del proyecto: `https://github.com/santisc1304/ml-clustering-project.git`
 
-| Parámetro | Caso 1 (SMS Champion) | Caso 2 (Heavy Caller) | Caso 3 (Base Estándar) |
+#### Paso 2: Clonar el repositorio
+Abra una terminal en un entorno limpio (Linux, macOS, WSL o VM) y ejecute:
+```bash
+git clone https://github.com/santisc1304/ml-clustering-project.git
+cd ml-clustering-project
+```
+
+#### Paso 3: Leer el README sin instrucciones verbales adicionales
+Todo el procedimiento, variables y casos de prueba están auto-contenidos en este documento. *(Opcionalmente, puede verificar la reproducibilidad del pipeline corriendo `python train.py` o ejecutando las pruebas con `python -m pytest tests/ -v`).*
+
+#### Paso 4: Construir la imagen Docker
+Ejecute la construcción de la imagen en el directorio raíz del proyecto:
+```bash
+docker build -t ml-clustering-app:v1.0 .
+```
+
+#### Paso 5: Ejecutar el contenedor
+Ponga a rodar el contenedor en segundo plano con el puerto mapeado:
+```bash
+docker run -d --name ml-clustering -p 8501:8501 --restart unless-stopped ml-clustering-app:v1.0
+```
+Verifique que esté activo:
+```bash
+docker ps
+```
+
+#### Paso 6: Probar al menos un caso de prueba
+Abra en su navegador `http://localhost:8501` (o `http://<IP_DE_LA_VM>:8501` si está en la nube). Ingrese cualquiera de los siguientes casos auditados (o use los botones del *Panel de Auditoría Rápida* en la barra lateral izquierda) y verifique que la salida coincida exactamente:
+
+| Parámetro de Entrada | Caso 1 (SMS Champion) | Caso 2 (Heavy Caller) | Caso 3 (Base Estándar) |
 |---|:---:|:---:|:---:|
 | `Subscription Length` | 32.0 | 34.0 | 30.0 |
 | `Charge Amount` | 1 | 3 | 0 |
@@ -222,11 +243,13 @@ Ingrese los siguientes valores en los controles de la aplicación (o use los bot
 | `Distinct Called Numbers` | 23.0 | 45.0 | 16.0 |
 | `Age` | 28.0 | 35.0 | 30.0 |
 | `Customer Value` | **1350.0** | 680.0 | 150.0 |
-| **Cluster Predicho Esperado** | **Cluster 1** | **Cluster 2** | **Cluster 0** |
-| **Afinidad Esperada** | **> 85%** | **> 90%** | **> 80%** |
-| **Verificación** | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% |
+| **Cluster Predicho Esperado** | **Cluster 1: SMS Champions** | **Cluster 2: Heavy Callers** | **Cluster 0: Base Estándar** |
+| **Afinidad al Centroide** | **> 85%** | **> 90%** | **> 80%** |
+| **Criterio de Validación** | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% |
 
-Registre el resultado de la auditoría en el formato [`docs/reproducibility_peer_audit.md`](docs/reproducibility_peer_audit.md).
+#### Paso 7: Registrar cualquier instrucción faltante o error de reproducibilidad
+Diligencie la matriz de auditoría ciega y consigne el visto bueno en el archivo oficial:
+[`docs/reproducibility_peer_audit.md`](docs/reproducibility_peer_audit.md).
 
 ---
 
