@@ -114,7 +114,6 @@ def train_clustering(df: pd.DataFrame, n_clusters: int, random_state: int) -> di
         "n_clusters": n_clusters,
         "cluster_descriptions": CLUSTER_DESCRIPTIONS,
         "profiles": profiles.to_dict(),
-        "profiles_df": profiles,
         "metrics": metrics,
         "feature_ranges": feature_ranges,
         "pca_model": pca_model,

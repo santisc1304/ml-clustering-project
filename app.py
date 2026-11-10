@@ -46,7 +46,13 @@ artifact = load_artifact()
 pipeline = artifact["model"]
 features = artifact["features"]
 descriptions = artifact.get("cluster_descriptions", {})
-profiles_df = artifact.get("profiles_df", pd.DataFrame())
+
+# Reconstruir profiles_df de forma segura sin depender de versiones de pandas
+if "profiles" in artifact:
+    profiles_df = pd.DataFrame.from_dict(artifact["profiles"])
+else:
+    profiles_df = pd.DataFrame()
+
 metrics = artifact.get("metrics", {})
 feature_ranges = artifact.get("feature_ranges", {})
 pca_model = artifact.get("pca_model", None)
