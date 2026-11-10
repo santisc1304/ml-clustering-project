@@ -26,6 +26,7 @@ Para facilitar la revisión por parte del docente y la realización de la **Prue
 | **Gráficos Diagnósticos** | [`graphs/`](graphs/) | Figuras en alta resolución: Método del Codo, Silhouette y Proyección PCA 2D. |
 | **Interpretación de Negocio** | [`docs/cluster_business_interpretation.md`](docs/cluster_business_interpretation.md) | Análisis detallado de los 3 segmentos descubiertos y acciones tácticas. |
 | **Protocolo de Auditoría Ciega** | [`docs/reproducibility_peer_audit.md`](docs/reproducibility_peer_audit.md) | Matriz de verificación y registro para la prueba cruzada. |
+| **Evidencia de Auditoría Cruzada (Pareja)** | [`resena_trabajo_santiago_sandoval.md`](resena_trabajo_santiago_sandoval.md) | Dictamen formal emitido por la pareja evaluadora (Miguel Moreno & Julián Duarte) con nota 5.0/5.0. |
 | **Preguntas de Sustentación** | [`docs/preguntas_discusion_final.md`](docs/preguntas_discusion_final.md) | Respuestas técnicas y conceptuales a las 12 preguntas de la Sección 35. |
 | **Suite de Pruebas Unitarias** | [`tests/test_pipeline_and_inference.py`](tests/test_pipeline_and_inference.py) | 5 pruebas automatizadas con `pytest` (**5/5 pasadas en verde**). |
 
@@ -259,6 +260,10 @@ Para que el evaluador / pareja externa pueda entregar el soporte formal de la au
    * Llene los nombres de los evaluadores, la fecha, marque los 8 criterios de la lista de chequeo y consigne si hubo alguna observación o instrucción faltante.
 3. **Exportar y Enviar como Archivo de Evidencia:**
    * El evaluador puede guardar ese archivo completado como PDF o Markdown (`Auditoria_Cruzada_EquipoEvaluador.pdf` o `.md`) o enviarlo por correo/Teams junto con las capturas de pantalla para ser anexado directamente a la entrega final.
+
+> 📄 **Evidencia Recibida de la Pareja Evaluadora:**
+> El dictamen de auditoría emitido por los compañeros Miguel Moreno y Julián Duarte ha sido incorporado al repositorio en:
+> [`resena_trabajo_santiago_sandoval.md`](resena_trabajo_santiago_sandoval.md) con una calificación final de **5.0 / 5.0 (Excelente)**.
 
 ---
 
