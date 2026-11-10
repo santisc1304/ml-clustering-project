@@ -247,9 +247,18 @@ Abra en su navegador `http://localhost:8501` (o `http://<IP_DE_LA_VM>:8501` si e
 | **Afinidad al Centroide** | **> 85%** | **> 90%** | **> 80%** |
 | **Criterio de Validación** | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% | ✔ Debe coincidir 100% |
 
-#### Paso 7: Registrar cualquier instrucción faltante o error de reproducibilidad
-Diligencie la matriz de auditoría ciega y consigne el visto bueno en el archivo oficial:
-[`docs/reproducibility_peer_audit.md`](docs/reproducibility_peer_audit.md).
+#### Paso 7: Registrar cualquier instrucción faltante o error de reproducibilidad y capturar evidencias
+
+Para que el evaluador / pareja externa pueda entregar el soporte formal de la auditoría en un solo archivo listo para adjuntar, debe seguir estas instrucciones de captura de evidencias:
+
+1. **Capturas de Pantalla Requeridas:**
+   * **Evidencia A (Terminal):** Captura de pantalla de la terminal mostrando la ejecución exitosa de `docker run` o `python train.py` con las métricas en pantalla.
+   * **Evidencia B (Navegador):** Captura de pantalla de la aplicación web en `http://localhost:8501` (o la IP pública) tras ingresar uno de los casos de prueba (ej: *Caso 1: SMS Champion*), donde se aprecie claramente el **Cluster Asignado**, la **Afinidad (%)**, y el gráfico **Radar** o **PCA 2D**.
+2. **Diligenciar la Matriz de Validación:**
+   * Abra la plantilla oficial en [`docs/reproducibility_peer_audit.md`](docs/reproducibility_peer_audit.md).
+   * Llene los nombres de los evaluadores, la fecha, marque los 8 criterios de la lista de chequeo y consigne si hubo alguna observación o instrucción faltante.
+3. **Exportar y Enviar como Archivo de Evidencia:**
+   * El evaluador puede guardar ese archivo completado como PDF o Markdown (`Auditoria_Cruzada_EquipoEvaluador.pdf` o `.md`) o enviarlo por correo/Teams junto con las capturas de pantalla para ser anexado directamente a la entrega final.
 
 ---
 
